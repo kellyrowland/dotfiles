@@ -1,0 +1,43 @@
+# create host definition for login1.ornl.gov portal
+# hostname alias 'ornl-login1' will resolve to 'login1.ornl.gov' with ssh
+Host ornl-login
+  Hostname login1.ornl.gov
+  # automatically use user ID r34 for this account
+  User kv3
+  # forward port 22 on each of the following behind-the-firewall machines
+  # to their own local port.  Note: choosing ports in the high range to
+  # avoid possible conflicts 
+  LocalForward 65433 code-int.ornl.gov:22
+  LocalForward 65434 romulus.ornl.gov:22
+  LocalForward 65477 romulus-nas.ornl.gov:22
+
+# create a host definition angmar.ornl.gov using the above forwarded port
+# hostname alias 'angmar' will resolve to 'localhost' at port 65432
+# assuming that I'm logged into login1, then this actually points to angmar.ornl.gov
+Host code-int
+  Hostname localhost
+  Port 65433
+  # automatically use user ID kv3 for this account
+  User kv3
+  # when ssh received the hostkey for nstdsrv.ornl.gov, accept is as the
+  # correct hostkey
+  HostKeyAlias code-int.ornl.gov
+
+Host romulus
+  Hostname localhost
+  Port 65434
+  # automatically use user ID kv3 for this account
+  User kv3
+  # when ssh received the hostkey for nstdsrv.ornl.gov, accept is as the
+  # correct hostkey
+  HostKeyAlias romulus.ornl.gov
+
+Host romulus-nas
+  Hostname localhost
+  Port 65477
+  # automatically use user ID kv3 for this account
+  User kv3
+  # when ssh received the hostkey for nstdsrv.ornl.gov, accept is as the
+  # correct hostkey
+  HostKeyAlias romulus-nas.ornl.gov
+
